@@ -46,4 +46,4 @@ python main.py
 
 1. Leer códigos QR
 2. Solicitar al usuario una ruta personalizada dónde guardar los códigos
-3.- Interfaz gráfica
+3. Interfaz gráfica
