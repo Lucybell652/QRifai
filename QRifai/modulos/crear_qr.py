@@ -1,6 +1,6 @@
 import os
 import qrcode
-from modulos.func_para_qr import ruta_fin_qr
+from modulos.sistema import ruta_fin_qr
 from qrcode.image.styledpil import StyledPilImage
 from qrcode.image.styles.moduledrawers import (
     CircleModuleDrawer, 
