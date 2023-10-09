@@ -2,16 +2,19 @@ import os
 import datetime
 from art import *
 
-def cls():
-    os.system('cls')
-    print("=" * 50)
-    tprint("        QRifai")
+def separador():
     print("=" * 50)
 
-def final():
+def cls():
+    os.system('cls')
+    separador()
+    tprint("        QRifai")
+    separador()
+
+def msg_listo():
     fin = "♥ Listo ♥"
     print(f"{fin:^50}")
-    print("=" * 50)
+    separador()
 
 def ruta_fin_qr():
     descargas_path = os.path.join(os.path.expanduser('~'), 'Downloads') #Obtener ruta raiz de descargas
