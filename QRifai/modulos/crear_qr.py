@@ -1,6 +1,12 @@
 import os
 import qrcode
-from modulos.sistema import ruta_fin_qr
+from modulos.sistema import (
+    ruta_fin_qr,
+    opcion,
+    obtener_nombre,
+    cls,
+    msg_listo
+)
 from qrcode.image.styledpil import StyledPilImage
 from qrcode.image.styles.moduledrawers import (
     CircleModuleDrawer, 
@@ -12,21 +18,22 @@ from qrcode.image.styles.moduledrawers import (
 )
 
 def crear_qr(valorQR, opc_usuario, imagenQR):
-    carpeta_qr = ruta_fin_qr()  # Obtener la carpeta de destino
-    imagenQR = os.path.join(carpeta_qr, imagenQR)  # Agregar la carpeta de destino a la ruta de la imagen
-    
-    # Preparamos el formato para el código QR
+    """Crea un código QR con el texto especificado.
+
+    Args:
+        valorQR: El texto que se incluirá en el código QR.
+        opc_usuario: La opción elegida por el usuario para el tipo de código QR.
+        imagenQR: El nombre del archivo de imagen del código QR.
+    """
+    carpeta_qr = ruta_fin_qr()
+    imagenQR = os.path.join(carpeta_qr, imagenQR)
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
     )
-
-    # Aplicamos el valor al objeto QR
     qr.add_data(valorQR)
-
-    # Establecemos el tipo de QR según la opción seleccionada por el usuario
     if opc_usuario == 1:
         tipoQRC = CircleModuleDrawer()
     elif opc_usuario == 2:
@@ -42,8 +49,41 @@ def crear_qr(valorQR, opc_usuario, imagenQR):
     else:
         print("Opción no válida. Se utilizará el tipo de QR por defecto (cuadrado_grande).")
         tipoQRC = SquareModuleDrawer()
-
-    # Generamos el código QR y lo almacenamos en el fichero de imagen PNG
     img = qr.make_image(image_factory=StyledPilImage, module_drawer=tipoQRC)
     f = open(imagenQR, "wb")
     img.save(f)
+
+def codigo_predeterminado():
+    """Genera un código QR con el texto especificado y el formato predeterminado (cuadrado grande).
+
+    Args:
+        valorQR: El texto del código QR.
+    """
+    valorQR = input("Introduzca el texto del código QR: ")
+    cls()
+    opc_usuario = 6
+    cls()
+    imagenQR = obtener_nombre()
+    cls()
+    crear_qr(valorQR, opc_usuario, imagenQR)
+    cls()
+    msg_listo()
+
+def codigo_personalizado():
+    """Genera un código QR con el texto especificado y el formato personalizado seleccionado por el usuario.
+
+    Args:
+        valorQR: El texto del código QR.
+        opc_usuario: El formato del código QR seleccionado por el usuario.
+        imagenQR: El nombre del archivo del código QR.
+    """
+    valorQR = input("Introduzca el texto del código QR: ")
+    cls()
+    print("Tipo de QR:\n1. Círculo\n2. Cuadrado\n3. Barra vertical\n4. Barra Horizontal\n5. Redondeado\n6. Cuadrado Grande (clásico)\n")
+    opc_usuario = opcion("¿Qué opción eliges? (Ingresa el número correspondiente):\n> ", [1, 2, 3, 4, 5, 6])
+    cls()
+    imagenQR = input("¿Nombre del QR?\n> ") + ".png"
+    cls()
+    crear_qr(valorQR, opc_usuario, imagenQR)
+    cls()
+    msg_listo()
